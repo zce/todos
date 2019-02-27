@@ -21,10 +21,12 @@
   "author": "zce <w@zce.me> (https://zce.me/)",
   "main": "src/index.js",
   "scripts": {
-    "build": "react-scripts build",
     "lint": "standard",
+    "test": "react-scripts test",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "build": "react-scripts build",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
