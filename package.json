@@ -2,10 +2,28 @@
   "name": "todos",
   "version": "0.1.0",
   "private": true,
+  "description": "Todos demo of any React.js",
+  "keywords": [
+    "react",
+    "todos",
+    "zce",
+    "zce.me"
+  ],
+  "homepage": "https://github.com/zce/todos#readme",
+  "bugs": {
+    "url": "https://github.com/zce/todos/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zce/todos.git"
+  },
+  "license": "MIT",
+  "author": "zce <w@zce.me> (https://zce.me/)",
+  "main": "src/index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "lint": "standard",
     "build": "react-scripts build",
+    "lint": "standard",
+    "start": "react-scripts start",
     "test": "react-scripts test"
   },
   "browserslist": [
@@ -17,18 +35,19 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "standard": {
-    "globals": [
-      "it"
-    ]
-  },
   "dependencies": {
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "todomvc-app-css": "^2.2.0"
   },
   "devDependencies": {
+    "gh-pages": "^2.0.1",
     "react-scripts": "^2.1.5",
     "standard": "^12.0.1"
+  },
+  "standard": {
+    "globals": [
+      "it"
+    ]
   }
 }
