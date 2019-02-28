@@ -5,6 +5,8 @@ import Main from './components/Main'
 import Footer from './components/Footer'
 import Info from './components/Info'
 
+import './App.css'
+
 const showFilters = {
   '/': () => true,
   '/active': i => !i.completed,
@@ -21,7 +23,8 @@ class App extends Component {
     super(props)
     this.state = {
       items: [],
-      path: getCurrentPath()
+      path: getCurrentPath(),
+      loading: true
     }
     this.getInitialData()
 
@@ -44,12 +47,15 @@ class App extends Component {
           { id: 3, text: 'Learning JavaScript', completed: false },
           { id: 4, text: 'Learning Node.js', completed: false },
           { id: 5, text: 'Learning React.js', completed: false }
-        ]
+        ],
+        loading: false
       })
     }, 100)
   }
 
   render () {
+    if (this.state.loading) return null
+
     const showItems = this.state.items.filter(showFilters[this.state.path])
 
     return (
