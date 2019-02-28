@@ -1,6 +1,18 @@
 import React, { Component } from 'react'
 
 class Footer extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      routes: [
+        { path: '/', name: 'All' },
+        { path: '/active', name: 'Active' },
+        { path: '/completed', name: 'Completed' }
+      ]
+    }
+  }
+
   render () {
     if (!this.props.items.length) return null
 
@@ -15,15 +27,13 @@ class Footer extends Component {
         <span className='todo-count'><strong>{activeCount}</strong> {activeCount === 1 ? `item` : 'items'} left</span>
         {/* Remove this if you don't implement routing */}
         <ul className='filters'>
-          <li>
-            <a className='selected' href='#/'>All</a>
-          </li>
-          <li>
-            <a href='#/active'>Active</a>
-          </li>
-          <li>
-            <a href='#/completed'>Completed</a>
-          </li>
+          {
+            this.state.routes.map(i =>
+              <li key={i.path}>
+                <a className={i.path === this.props.current ? 'selected' : ''} href={'#' + i.path} onClick={() => this.props.onFilter(i.path)}>{i.name}</a>
+              </li>
+            )
+          }
         </ul>
         {
           activeCount !== this.props.items.length &&

@@ -5,17 +5,33 @@ import Main from './components/Main'
 import Footer from './components/Footer'
 import Info from './components/Info'
 
+const showFilters = {
+  '/': () => true,
+  '/active': i => !i.completed,
+  '/completed': i => i.completed
+}
+
+const getCurrentPath = () => {
+  const current = window.location.hash.substr(1)
+  return (current && [ '/active', '/completed' ].includes(current)) ? current : '/'
+}
+
 class App extends Component {
   constructor (props) {
     super(props)
-    this.state = { items: [] }
+    this.state = {
+      items: [],
+      path: getCurrentPath()
+    }
     this.getInitialData()
+
     this.handleAdd = this.handleAdd.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleToggleAll = this.handleToggleAll.bind(this)
     this.handleClearCompleted = this.handleClearCompleted.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
   }
 
   getInitialData () {
@@ -34,18 +50,25 @@ class App extends Component {
   }
 
   render () {
+    const showItems = this.state.items.filter(showFilters[this.state.path])
+
     return (
       <>
         <section className='todoapp'>
           <Header onAdd={this.handleAdd} />
           <Main
-            items={this.state.items}
+            items={showItems}
             onDelete={this.handleDelete}
             onToggle={this.handleToggle}
             onUpdate={this.handleUpdate}
             onToggleAll={this.handleToggleAll}
           />
-          <Footer items={this.state.items} onClear={this.handleClearCompleted} />
+          <Footer
+            items={this.state.items}
+            current={this.state.path}
+            onFilter={this.handleFilter}
+            onClear={this.handleClearCompleted}
+          />
         </section>
         <Info />
       </>
@@ -82,6 +105,10 @@ class App extends Component {
   handleClearCompleted () {
     const items = this.state.items.filter(i => !i.completed)
     this.setState({ items })
+  }
+
+  handleFilter (path) {
+    this.setState({ path })
   }
 }
 
