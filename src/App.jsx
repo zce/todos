@@ -5,6 +5,8 @@ import Main from './components/Main'
 import Footer from './components/Footer'
 import Info from './components/Info'
 
+import storage from './lib/storage'
+
 import './App.css'
 
 const showFilters = {
@@ -22,11 +24,10 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      items: [],
+      items: storage.get('todos') || [],
       path: getCurrentPath(),
       loading: true
     }
-    this.getInitialData()
 
     this.handleAdd = this.handleAdd.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
@@ -37,20 +38,15 @@ class App extends Component {
     this.handleFilter = this.handleFilter.bind(this)
   }
 
-  getInitialData () {
-    // TODO: Use local storage
-    setTimeout(() => {
-      this.setState({
-        items: [
-          { id: 1, text: 'Learning HTML', completed: true },
-          { id: 2, text: 'Learning CSS', completed: true },
-          { id: 3, text: 'Learning JavaScript', completed: false },
-          { id: 4, text: 'Learning Node.js', completed: false },
-          { id: 5, text: 'Learning React.js', completed: false }
-        ],
-        loading: false
-      })
-    }, 100)
+  componentWillMount () {
+    this.setState({ loading: false })
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevState.items === this.state.items) return
+    // auto save
+    console.log(this.state.items)
+    storage.set('todos', this.state.items)
   }
 
   render () {
