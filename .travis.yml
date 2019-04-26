@@ -17,3 +17,14 @@ script:
   - yarn lint
   - yarn test
   - yarn build
+
+# https://docs.travis-ci.com/user/deployment/pages/
+deploy:
+  provider: pages
+  skip_cleanup: true
+  keep_history: true
+  github_token: $GITHUB_TOKEN
+  local_dir: build
+  target_branch: master
+  on:
+    branch: react
