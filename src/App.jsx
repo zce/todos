@@ -17,7 +17,7 @@ const showFilters = {
 
 const getCurrentPath = () => {
   const current = window.location.hash.substr(1)
-  return (current && [ '/active', '/completed' ].includes(current)) ? current : '/'
+  return (current && ['/active', '/completed'].includes(current)) ? current : '/'
 }
 
 class App extends Component {
@@ -79,7 +79,7 @@ class App extends Component {
 
   handleAdd (text) {
     const id = this.state.items.reduce((m, i) => Math.max(i.id, m), -1) + 1
-    const items = [ ...this.state.items, { id, text, completed: false } ]
+    const items = [...this.state.items, { id, text, completed: false }]
     this.setState({ items })
   }
 
