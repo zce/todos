@@ -18,7 +18,8 @@ class Header extends Component {
           autoFocus
           value={this.state.value}
           onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown} />
+          onKeyDown={this.handleKeyDown}
+        />
       </header>
     )
   }
