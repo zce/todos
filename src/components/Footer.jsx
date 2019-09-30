@@ -24,7 +24,7 @@ class Footer extends Component {
       // This footer should hidden by default and shown when there are todos
       <footer className='footer'>
         {/* This should be `0 items left` by default */}
-        <span className='todo-count'><strong>{activeCount}</strong> {activeCount === 1 ? `item` : 'items'} left</span>
+        <span className='todo-count'><strong>{activeCount}</strong> {activeCount === 1 ? 'item' : 'items'} left</span>
         {/* Remove this if you don't implement routing */}
         <ul className='filters'>
           {
@@ -37,7 +37,7 @@ class Footer extends Component {
         </ul>
         {
           activeCount !== this.props.items.length &&
-          <button className='clear-completed' onClick={this.props.onClear}>Clear completed</button>
+            <button className='clear-completed' onClick={this.props.onClear}>Clear completed</button>
         }
       </footer>
     )
