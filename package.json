@@ -67,8 +67,8 @@
     "todomvc-app-css": "2.3.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.2.0",
-    "@commitlint/config-conventional": "8.2.0",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
     "commitizen": "4.0.3",
     "cz-conventional-changelog": "3.0.2",
     "gh-pages": "2.1.1",
