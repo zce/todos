@@ -2,7 +2,7 @@
   <section class="todoapp">
     <header class="header">
       <h1>todos</h1>
-      <input class="new-todo" placeholder="What needs to be done?" autofocus v-model="input" @change="addTodo" />
+      <input class="new-todo" placeholder="What needs to be done?" autofocus v-model.trim="input" @change="addTodo" />
     </header>
     <!-- This section should be hidden by default and shown when there are todos -->
     <section class="main">
@@ -11,11 +11,11 @@
       <ul class="todo-list">
         <!-- These are here just to show the structure of the list items -->
         <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-        <li v-for="(item, i) in showTodos" :key="item.text" :class="{ completed: item.completed }">
+        <li v-for="item in showTodos" :key="item.text" :class="{ completed: item.completed }">
           <div class="view">
-            <input class="toggle" type="checkbox" v-model="item.completed" />
+            <input class="toggle" type="checkbox" :checked="item.completed" @change="toggleTodo(item)" />
             <label>{{ item.text }}</label>
-            <button class="destroy" @click="removeTodo(i)"></button>
+            <button class="destroy" @click="removeTodo(item)"></button>
           </div>
           <input class="edit" value="Create a TodoMVC template" />
         </li>
@@ -30,13 +30,13 @@
       <!-- Remove this if you don't implement routing -->
       <ul class="filters">
         <li>
-          <a :class="{ selected: filter === 'all' }" @click="filter = 'all'" href="javascript:;">All</a>
+          <a :class="{ selected: filter === 'all' }" @click="setFilter('all')" href="javascript:;">All</a>
         </li>
         <li>
-          <a :class="{ selected: filter === 'active' }" @click="filter = 'active'" href="javascript:;">Active</a>
+          <a :class="{ selected: filter === 'active' }" @click="setFilter('active')" href="javascript:;">Active</a>
         </li>
         <li>
-          <a :class="{ selected: filter === 'completed' }" @click="filter = 'completed'" href="javascript:;">Completed</a>
+          <a :class="{ selected: filter === 'completed' }" @click="setFilter('completed')" href="javascript:;">Completed</a>
         </li>
       </ul>
       <!-- Hidden if no completed items are left ↓ -->
@@ -46,65 +46,37 @@
 </template>
 
 <script>
-import storage from './storage'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
-  computed: {
-    showTodos () {
-      const filters = {
-        all: i => true,
-        active: i => !i.completed,
-        completed: i => i.completed
-      }
-
-      return this.todos.filter(filters[this.filter] || filters.all)
-    },
-    leftCount () {
-      return this.todos.filter(i => !i.completed).length
-    },
-    allCompleted () {
-      return this.todos.every(i => i.completed)
-    }
-  },
   data () {
-    const todos = storage.get('todos') || []
     return {
-      input: '',
-      filter: 'all',
-      todos: todos
+      input: ''
     }
   },
-  watch: {
-    todos: {
-      handler (todos) {
-        storage.set('todos', todos)
-      },
-      deep: true
-    }
-  },
+  computed: mapGetters([
+    'filter',
+    'showTodos',
+    'leftCount',
+    'allCompleted'
+  ]),
   methods: {
     addTodo () {
-      // prevent duplicate item
-      const text = this.input.trim()
-      if (this.todos.find(i => i.text === text)) {
-        return
-      }
-      this.todos.push({ text, completed: false })
+      if (!this.input) return
+      this.$store.dispatch('addTodo', {
+        text: this.input,
+        completed: false
+      })
       this.input = ''
     },
-    removeTodo (index) {
-      this.todos.splice(index, 1)
-    },
-    clearCompleted () {
-      this.todos = this.todos.filter(i => !i.completed)
-    },
-    toggleAll () {
-      const completed = !this.allCompleted
-      this.todos.forEach(i => {
-        i.completed = completed
-      })
-    }
+    ...mapActions([
+      'removeTodo',
+      'toggleTodo',
+      'toggleAll',
+      'clearCompleted',
+      'setFilter'
+    ])
   }
 }
 </script>
