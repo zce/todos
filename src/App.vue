@@ -1,6 +1,6 @@
 <template>
   <section class="todoapp">
-    <Header/>
+    <Header @change="addTodo"/>
     <!-- This section should be hidden by default and shown when there are todos -->
     <Main :todos="todos"/>
     <!-- This footer should hidden by default and shown when there are todos -->
@@ -35,6 +35,11 @@ export default class App extends Vue {
       { text: 'Learning Vue.js', completed: true },
       { text: 'Learning TypeScript', completed: false }
     ]
+  }
+
+  addTodo (text: string) {
+    if (this.todos.some(t => t.text === text)) return
+    this.todos.push({ text, completed: false })
   }
 }
 </script>
