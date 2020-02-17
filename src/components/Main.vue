@@ -7,7 +7,7 @@
       <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
       <li v-for="item in todos" :key="item.text" :class="{ completed: item.completed }">
         <div class="view">
-          <input class="toggle" type="checkbox" :checked="item.completed">
+          <input class="toggle" type="checkbox" :checked="item.completed" @change="onToggle(item)">
           <label>{{ item.text }}</label>
           <button class="destroy"></button>
         </div>
@@ -34,7 +34,7 @@
 //   }
 // }
 
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 import { Todo } from '../types'
 
 @Component
@@ -44,6 +44,11 @@ export default class Main extends Vue {
 
   mounted () {
     console.log(this.todos)
+  }
+
+  @Emit('toggle')
+  onToggle (todo: Todo) {
+    return todo
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <section class="todoapp">
     <Header @change="addTodo"/>
     <!-- This section should be hidden by default and shown when there are todos -->
-    <Main :todos="todos"/>
+    <Main :todos="todos" @toggle="toggleTodo"/>
     <!-- This footer should hidden by default and shown when there are todos -->
     <Footer/>
   </section>
@@ -40,6 +40,11 @@ export default class App extends Vue {
   addTodo (text: string) {
     if (this.todos.some(t => t.text === text)) return
     this.todos.push({ text, completed: false })
+  }
+
+  toggleTodo (todo: Todo) {
+    const index = this.todos.indexOf(todo)
+    this.todos.splice(index, 1, { text: todo.text, completed: !todo.completed })
   }
 }
 </script>
