@@ -1,10 +1,10 @@
 <template>
-  <section class="todoapp">
+  <section class="todoapp" v-cloak>
     <Header @change="addTodo"/>
     <!-- This section should be hidden by default and shown when there are todos -->
-    <Main :todos="visibleTodos" @toggle="toggleTodo" @remove="removeTodo" @editing="editTodo"/>
+    <Main v-show="todos.length" :todos="visibleTodos" @toggle="toggleTodo" @remove="removeTodo" @editing="editTodo"/>
     <!-- This footer should hidden by default and shown when there are todos -->
-    <Footer :remaining="remaining" :filter="filter" @toggleFilter="toggleFilter" @clear="clearCompleted"/>
+    <Footer v-show="todos.length" :remaining="remaining" :filter="filter" :showClear="remaining < todos.length" @toggleFilter="toggleFilter" @clear="clearCompleted"/>
   </section>
 </template>
 
@@ -83,3 +83,9 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<style >
+[v-cloak] {
+  display: none;
+}
+</style>

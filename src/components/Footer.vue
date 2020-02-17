@@ -15,7 +15,7 @@
       </li>
     </ul>
     <!-- Hidden if no completed items are left ↓ -->
-    <button class="clear-completed" @click="onClearCompleted">Clear completed</button>
+    <button v-show="showClear" class="clear-completed" @click="onClearCompleted">Clear completed</button>
   </footer>
 </template>
 
@@ -32,6 +32,9 @@ export default class Footer extends Vue {
 
   @Prop()
   readonly remaining!: number
+
+  @Prop()
+  readonly showClear!: boolean
 
   constructor () {
     super()
