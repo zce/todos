@@ -9,7 +9,7 @@
         <div class="view">
           <input class="toggle" type="checkbox" :checked="item.completed" @change="onToggle(item)">
           <label>{{ item.text }}</label>
-          <button class="destroy"></button>
+          <button class="destroy" @click="onDestory(item)"></button>
         </div>
         <input class="edit" :value="item.text">
       </li>
@@ -48,6 +48,11 @@ export default class Main extends Vue {
 
   @Emit('toggle')
   onToggle (todo: Todo) {
+    return todo
+  }
+
+  @Emit('remove')
+  onDestory (todo: Todo) {
     return todo
   }
 }
