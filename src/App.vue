@@ -2,17 +2,22 @@
   <section class="todoapp">
     <Header/>
     <!-- This section should be hidden by default and shown when there are todos -->
-    <Main/>
+    <Main :todos="todos"/>
     <!-- This footer should hidden by default and shown when there are todos -->
     <Footer/>
   </section>
 </template>
 
 <script lang="ts">
+// eslint 不推荐使用这种引入类型声明的方式
+// 改用 import 模块的方式代替
+// /// <reference path="./types.d.ts" />
+
 import { Vue, Component } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 import Main from './components/Main.vue'
 import Footer from './components/Footer.vue'
+import { Todo } from './types'
 
 @Component({
   components: {
@@ -22,6 +27,14 @@ import Footer from './components/Footer.vue'
   }
 })
 export default class App extends Vue {
+  private todos: Todo[]
 
+  constructor () {
+    super()
+    this.todos = [
+      { text: 'Learning Vue.js', completed: true },
+      { text: 'Learning TypeScript', completed: false }
+    ]
+  }
 }
 </script>
