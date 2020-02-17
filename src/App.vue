@@ -4,7 +4,7 @@
     <!-- This section should be hidden by default and shown when there are todos -->
     <Main :todos="todos" @toggle="toggleTodo" @remove="removeTodo"/>
     <!-- This footer should hidden by default and shown when there are todos -->
-    <Footer/>
+    <Footer :remaining="remaining"/>
   </section>
 </template>
 
@@ -28,6 +28,10 @@ import { Todo } from './types'
 })
 export default class App extends Vue {
   private todos: Todo[]
+
+  get remaining () {
+    return this.todos.filter(t => !t.completed).length
+  }
 
   constructor () {
     super()
