@@ -2,9 +2,9 @@
   <section class="todoapp">
     <Header @change="addTodo"/>
     <!-- This section should be hidden by default and shown when there are todos -->
-    <Main :todos="todos" @toggle="toggleTodo" @remove="removeTodo"/>
+    <Main :todos="visibleTodos" @toggle="toggleTodo" @remove="removeTodo"/>
     <!-- This footer should hidden by default and shown when there are todos -->
-    <Footer :remaining="remaining"/>
+    <Footer :remaining="remaining" :filter="filter" @toggleFilter="toggleFilter"/>
   </section>
 </template>
 
@@ -17,7 +17,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 import Main from './components/Main.vue'
 import Footer from './components/Footer.vue'
-import { Todo } from './types'
+import { Todo, Filter } from './types'
 
 @Component({
   components: {
@@ -28,9 +28,20 @@ import { Todo } from './types'
 })
 export default class App extends Vue {
   private todos: Todo[]
+  private filter: Filter = 'all'
 
   get remaining () {
     return this.todos.filter(t => !t.completed).length
+  }
+
+  get visibleTodos () {
+    let todos = this.todos
+    if (this.filter === 'active') {
+      todos = todos.filter(t => !t.completed)
+    } else if (this.filter === 'completed') {
+      todos = todos.filter(t => t.completed)
+    }
+    return todos
   }
 
   constructor () {
@@ -54,6 +65,10 @@ export default class App extends Vue {
   removeTodo (todo: Todo) {
     const index = this.todos.indexOf(todo)
     this.todos.splice(index, 1)
+  }
+
+  toggleFilter (filter: Filter) {
+    this.filter = filter
   }
 }
 </script>
