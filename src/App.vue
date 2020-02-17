@@ -2,7 +2,7 @@
   <section class="todoapp">
     <Header @change="addTodo"/>
     <!-- This section should be hidden by default and shown when there are todos -->
-    <Main :todos="visibleTodos" @toggle="toggleTodo" @remove="removeTodo"/>
+    <Main :todos="visibleTodos" @toggle="toggleTodo" @remove="removeTodo" @editing="editTodo"/>
     <!-- This footer should hidden by default and shown when there are todos -->
     <Footer :remaining="remaining" :filter="filter" @toggleFilter="toggleFilter" @clear="clearCompleted"/>
   </section>
@@ -60,6 +60,11 @@ export default class App extends Vue {
   toggleTodo (todo: Todo) {
     const index = this.todos.indexOf(todo)
     this.todos.splice(index, 1, { text: todo.text, completed: !todo.completed })
+  }
+
+  editTodo (todo: Todo) {
+    const index = this.todos.indexOf(todo)
+    this.todos.splice(index, 1, { text: todo.text, completed: todo.completed })
   }
 
   removeTodo (todo: Todo) {

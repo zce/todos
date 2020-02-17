@@ -5,13 +5,13 @@
     <ul class="todo-list">
       <!-- These are here just to show the structure of the list items -->
       <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-      <li v-for="item in todos" :key="item.text" :class="{ completed: item.completed }">
+      <li v-for="item in todos" :key="item.text" :class="{ completed: item.completed, editing: editing === item }">
         <div class="view">
           <input class="toggle" type="checkbox" :checked="item.completed" @change="onToggle(item)">
-          <label>{{ item.text }}</label>
+          <label @dblclick="onEditing(item)">{{ item.text }}</label>
           <button class="destroy" @click="onDestory(item)"></button>
         </div>
-        <input class="edit" :value="item.text">
+        <input class="edit" v-focus="editing === item" :value="item.text" @blur="onComfirmEditing(item, $event)" @keyup.enter="onComfirmEditing(item, $event)" @keyup.esc="onCancelEditing">
       </li>
     </ul>
   </section>
@@ -37,13 +37,44 @@
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 import { Todo } from '../types'
 
-@Component
+@Component({
+  directives: {
+    focus (ref, { value }) {
+      if (!value) return
+      const input = ref as HTMLInputElement
+      input.focus()
+      input.select()
+    }
+  }
+})
 export default class Main extends Vue {
+  private editing: Todo | null = null
+
   @Prop()
   readonly todos?: Todo[]
 
   mounted () {
     console.log(this.todos)
+  }
+
+  onEditing (todo: Todo) {
+    this.editing = todo
+  }
+
+  onCancelEditing () {
+    this.editing = null
+  }
+
+  @Emit('editing')
+  onComfirmEditing (todo: Todo, e: Event) {
+    const input = e.target as HTMLInputElement
+    const text = input.value.trim()
+    if (!text) {
+      return this.onDestory(todo)
+    }
+    this.editing = null
+    todo.text = text
+    return todo
   }
 
   @Emit('toggle')
