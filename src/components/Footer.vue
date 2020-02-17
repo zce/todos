@@ -15,7 +15,7 @@
       </li>
     </ul>
     <!-- Hidden if no completed items are left ↓ -->
-    <button class="clear-completed">Clear completed</button>
+    <button class="clear-completed" @click="onClearCompleted">Clear completed</button>
   </footer>
 </template>
 
@@ -43,5 +43,8 @@ export default class Footer extends Vue {
     this.state = filter
     return filter
   }
+
+  @Emit('clear')
+  onClearCompleted () {} // eslint-disable-line @typescript-eslint/no-empty-function
 }
 </script>
