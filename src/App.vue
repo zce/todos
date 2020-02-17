@@ -13,10 +13,11 @@
 // 改用 import 模块的方式代替
 // /// <reference path="./types.d.ts" />
 
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 import Main from './components/Main.vue'
 import Footer from './components/Footer.vue'
+import storage from './utils/storage'
 import { Todo, Filter } from './types'
 
 @Component({
@@ -46,10 +47,7 @@ export default class App extends Vue {
 
   constructor () {
     super()
-    this.todos = [
-      { text: 'Learning Vue.js', completed: true },
-      { text: 'Learning TypeScript', completed: false }
-    ]
+    this.todos = storage.get<Todo[]>('todos') || []
   }
 
   addTodo (text: string) {
@@ -80,6 +78,11 @@ export default class App extends Vue {
 
   toggleFilter (filter: Filter) {
     this.filter = filter
+  }
+
+  @Watch('todos')
+  onTodosChange (todos: Todo[]) {
+    storage.set('todos', todos)
   }
 }
 </script>
