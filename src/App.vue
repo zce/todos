@@ -17,7 +17,6 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import Header from './components/Header.vue'
 import Main from './components/Main.vue'
 import Footer from './components/Footer.vue'
-import storage from './utils/storage'
 import { Todo, Filter } from './types'
 
 @Component({
@@ -47,7 +46,7 @@ export default class App extends Vue {
 
   constructor () {
     super()
-    this.todos = storage.get<Todo[]>('todos') || []
+    this.todos = this.$storage.get<Todo[]>('todos') || []
   }
 
   addTodo (text: string) {
@@ -82,7 +81,7 @@ export default class App extends Vue {
 
   @Watch('todos')
   onTodosChange (todos: Todo[]) {
-    storage.set('todos', todos)
+    this.$storage.set('todos', todos)
   }
 }
 </script>
