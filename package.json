@@ -76,6 +76,6 @@
     "lint-staged": "10.0.7",
     "react-scripts": "3.4.0",
     "react-test-renderer": "16.13.0",
-    "standard": "14.3.3"
+    "standard": "14.3.4"
   }
 }
