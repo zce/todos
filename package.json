@@ -62,8 +62,8 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "react": "16.13.0",
-    "react-dom": "16.13.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "todomvc-app-css": "2.3.0"
   },
   "devDependencies": {
@@ -75,7 +75,7 @@
     "husky": "4.2.3",
     "lint-staged": "10.0.7",
     "react-scripts": "3.4.0",
-    "react-test-renderer": "16.13.0",
+    "react-test-renderer": "18.2.0",
     "standard": "14.3.3"
   }
 }
